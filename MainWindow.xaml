@@ -7,6 +7,26 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" MaxWidth="250"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <ListView x:Name="ListView" Grid.Column="0">
+            <ListViewItem Content="List1"/>
+            <ListViewItem Content="List2"/>
+            <ListViewItem Content="List3"/>
+            <ListViewItem Content="List4"/>
+        </ListView>
+        <GridSplitter Grid.Column="1" ShowsPreview="False" Width="3"
+                      HorizontalAlignment="Center" VerticalAlignment="Stretch"/>
+        <ListView Grid.Column="2">
+            <CheckBox x:Name="task1" IsChecked="False" Content="Task1"/>
+            <CheckBox x:Name="task2" IsChecked="False" Content="Task2"/>
+            <CheckBox x:Name="task3" IsChecked="False" Content="Task3"/>
+            <CheckBox x:Name="task4" IsChecked="False" Content="Task4"/>
+        </ListView>
+
 
     </Grid>
 </Window>
