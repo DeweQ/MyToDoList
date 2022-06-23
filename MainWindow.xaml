@@ -12,19 +12,21 @@
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <ListView x:Name="ListView" Grid.Column="0">
-            <ListViewItem Content="List1"/>
-            <ListViewItem Content="List2"/>
-            <ListViewItem Content="List3"/>
-            <ListViewItem Content="List4"/>
+        <ListView x:Name="Lists" Grid.Column="0" SelectionChanged="Lists_SelectionChanged">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Label Content="{Binding Name}"></Label>
+                </DataTemplate>
+            </ListView.ItemTemplate>
         </ListView>
         <GridSplitter Grid.Column="1" ShowsPreview="False" Width="3"
                       HorizontalAlignment="Center" VerticalAlignment="Stretch"/>
-        <ListView Grid.Column="2">
-            <CheckBox x:Name="task1" IsChecked="False" Content="Task1"/>
-            <CheckBox x:Name="task2" IsChecked="False" Content="Task2"/>
-            <CheckBox x:Name="task3" IsChecked="False" Content="Task3"/>
-            <CheckBox x:Name="task4" IsChecked="False" Content="Task4"/>
+        <ListView x:Name="Tasks" Grid.Column="2">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <CheckBox Content="{Binding Text}" IsChecked="{Binding IsCompleted}" IsEnabled="{Binding !(IsCompleted)}"></CheckBox>
+                </DataTemplate>
+            </ListView.ItemTemplate>
         </ListView>
 
 

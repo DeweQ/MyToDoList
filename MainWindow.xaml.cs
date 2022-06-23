@@ -20,9 +20,25 @@ namespace MyToDoList
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow()
+        public List<ToDoList> ToDoLists { get; private set; }
+        public MainWindow(List<ToDoList> toDoLists)
         {
             InitializeComponent();
+            ToDoLists = toDoLists;
+
+            Lists.ItemsSource = ToDoLists;
+            
+        }
+
+        private void Lists_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ListView list = (ListView)sender;
+            ToDoList td = (ToDoList)list.SelectedItem;
+
+            Binding binding = new Binding();
+            binding.Source = td;
+            binding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+            Tasks.ItemsSource = td.Tasks;
         }
     }
 }
