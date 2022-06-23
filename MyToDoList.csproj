@@ -7,4 +7,10 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Page Include="App.xaml"></Page>
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Remove="App.xaml" />
+  </ItemGroup>
 </Project>
