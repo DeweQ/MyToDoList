@@ -12,22 +12,32 @@
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <ListView x:Name="Lists" Grid.Column="0" SelectionChanged="Lists_SelectionChanged">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <Label Content="{Binding Name}"></Label>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+        <DockPanel x:Name="ListSelectionSection" Grid.Column="0" LastChildFill="True">
+            <Label Background="LightGray" DockPanel.Dock="Top">My lists</Label>
+            <Button x:Name="AddListButton" Background="LightGreen" DockPanel.Dock="Bottom" Content="Add new List" Click="AddListButton_Click" />
+            <StackPanel x:Name="ListsStackPanel">
+                <ListView x:Name="Lists" SelectionChanged="Lists_SelectionChanged">
+                    <ListView.ItemTemplate>
+                        <DataTemplate >
+                            <Label Content="{Binding Name}"  Background="AliceBlue" HorizontalAlignment="Stretch"></Label>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackPanel>
+        </DockPanel>
         <GridSplitter Grid.Column="1" ShowsPreview="False" Width="3"
                       HorizontalAlignment="Center" VerticalAlignment="Stretch"/>
-        <ListView x:Name="Tasks" Grid.Column="2">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <CheckBox Content="{Binding Text}" IsChecked="{Binding IsCompleted}" IsEnabled="{Binding !(IsCompleted)}"></CheckBox>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+        <DockPanel LastChildFill="True" Grid.Column="2">
+            <Label Background="LightGray" DockPanel.Dock="Top" Height="26"></Label>
+            <Button x:Name="AddTaskButton" Background="LightGreen" DockPanel.Dock="Bottom" Content="Add new Task" />
+            <ListView x:Name="Tasks">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <CheckBox Height="20"  Content="{Binding Text}" IsChecked="{Binding IsCompleted}"></CheckBox>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </DockPanel>
 
 
     </Grid>

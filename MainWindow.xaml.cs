@@ -27,7 +27,7 @@ namespace MyToDoList
             ToDoLists = toDoLists;
 
             Lists.ItemsSource = ToDoLists;
-            
+
         }
 
         private void Lists_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -39,6 +39,41 @@ namespace MyToDoList
             binding.Source = td;
             binding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
             Tasks.ItemsSource = td.Tasks;
+        }
+
+        private void AddListButton_Click(object sender, RoutedEventArgs e)
+        {
+            var newList = new TextBox();
+            newList.LostFocus += NewList_LostFocus;
+            newList.PreviewKeyUp += NewList_PreviewKeyUp;
+            ListsStackPanel.Children.Add(newList);
+            newList.Focus();
+        }
+
+        private void NewList_LostFocus(object sender, RoutedEventArgs e)
+        {
+            TextBox tb = (TextBox)sender;
+            if (tb.IsKeyboardFocusWithin)
+                return;
+            CreateNewList(sender);
+        }
+
+
+        private void NewList_PreviewKeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+                CreateNewList(sender);
+        }
+
+        private void CreateNewList(object sender)
+        {
+            var tb = (TextBox)sender;
+            if (!string.IsNullOrEmpty(tb.Text))
+            {
+                ToDoLists.Add(new ToDoList() { Name = tb.Text });
+                Lists.Items.Refresh();
+            }
+                ListsStackPanel.Children.Remove(tb);
         }
     }
 }
