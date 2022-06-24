@@ -33,32 +33,32 @@ namespace MyToDoList
                 new ToDoList()
                 {
                     Name = "List one",
-                    Tasks = new List<ToDoListTask>()
+                    Items = new List<ToDoListItem>()
                     {
-                        new ToDoListTask(){Text="task 1"},
-                        new ToDoListTask(){Text="task 2"},
-                        new ToDoListTask(){Text="task 3"},
-                        new ToDoListTask(){Text="task 4"},
+                        new ToDoListItem(){Text="task 1"},
+                        new ToDoListItem(){Text="task 2"},
+                        new ToDoListItem(){Text="task 3"},
+                        new ToDoListItem(){Text="task 4"},
                     }
                 },new ToDoList()
                 {
                     Name = "List two",
-                    Tasks = new List<ToDoListTask>()
+                    Items = new List<ToDoListItem>()
                     {
-                        new ToDoListTask(){Text="task 5"},
-                        new ToDoListTask(){Text="task 6"},
-                        new ToDoListTask(){Text="task 7"},
-                        new ToDoListTask(){Text="task 8"},
+                        new ToDoListItem(){Text="task 5"},
+                        new ToDoListItem(){Text="task 6"},
+                        new ToDoListItem(){Text="task 7"},
+                        new ToDoListItem(){Text="task 8"},
                     }
                 },new ToDoList()
                 {
                     Name = "List three",
-                    Tasks = new List<ToDoListTask>()
+                    Items = new List<ToDoListItem>()
                     {
-                        new ToDoListTask(){Text="task 9"},
-                        new ToDoListTask(){Text="task 10"},
-                        new ToDoListTask(){Text="task 11"},
-                        new ToDoListTask(){Text="task 12"},
+                        new ToDoListItem(){Text="task 9"},
+                        new ToDoListItem(){Text="task 10"},
+                        new ToDoListItem(){Text="task 11"},
+                        new ToDoListItem(){Text="task 12"},
                     }
                 }
             };

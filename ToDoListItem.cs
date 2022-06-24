@@ -1,6 +1,6 @@
 namespace MyToDoList;
 
-public class ToDoListTask
+public class ToDoListItem
 {
     public string Text { get; set; } = "";
     public bool IsCompleted { get; set; } = false;

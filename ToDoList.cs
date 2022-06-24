@@ -2,6 +2,6 @@ namespace MyToDoList;
 
 public class ToDoList
 {
-    public List<ToDoListTask> Tasks { get; set; } = new List<ToDoListTask>();
+    public List<ToDoListItem> Items { get; set; } = new List<ToDoListItem>();
     public string Name { get; set; } = "List";
 }
