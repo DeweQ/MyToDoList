@@ -22,6 +22,7 @@ namespace MyToDoList
     public partial class MainWindow : Window
     {
         public ObservableCollection<ToDoList> ToDoLists { get; private set; }
+        public ToDoList? SelectedList;
         public MainWindow(IEnumerable<ToDoList> toDoLists)
         {
             InitializeComponent();
@@ -30,19 +31,19 @@ namespace MyToDoList
             ListSelectionSection.Resources.Add("ToDoLists",ToDoLists);
 
             Lists.ItemsSource = (ObservableCollection<ToDoList>)ListSelectionSection.Resources["ToDoLists"];
+            Lists.SelectedIndex = 0;
 
         }
 
         private void Lists_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            
             ListView list = (ListView)sender;
             ToDoList td = (ToDoList)list.SelectedItem;
-
-            Binding binding = new Binding();
-            binding.Source = td;
-            binding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
-            Tasks.ItemsSource = td.Tasks;
-            CurrentListLabel.Content = td.Name;
+            SelectedList = td;
+            Tasks.Items.Refresh();
+            Tasks.ItemsSource = SelectedList.Tasks;
+            CurrentListLabel.Content = SelectedList.Name;
         }
 
         private void AddListButton_Click(object sender, RoutedEventArgs e)

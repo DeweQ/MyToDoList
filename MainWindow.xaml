@@ -27,7 +27,7 @@
         </DockPanel>
         <GridSplitter Grid.Column="1" ShowsPreview="False" Width="3"
                       HorizontalAlignment="Center" VerticalAlignment="Stretch"/>
-        <DockPanel LastChildFill="True" Grid.Column="2">
+        <DockPanel x:Name="CurrentListTaskPanel" LastChildFill="True" Grid.Column="2">
             <Label x:Name="CurrentListLabel" Background="LightGray" DockPanel.Dock="Top" >|</Label>
             <Button x:Name="AddTaskButton" Background="LightGreen" DockPanel.Dock="Bottom" Content="Add new Task" />
             <ListView x:Name="Tasks">
