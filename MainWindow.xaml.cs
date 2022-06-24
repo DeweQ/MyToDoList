@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Collections.ObjectModel;
 
 namespace MyToDoList
 {
@@ -20,13 +21,15 @@ namespace MyToDoList
     /// </summary>
     public partial class MainWindow : Window
     {
-        public List<ToDoList> ToDoLists { get; private set; }
-        public MainWindow(List<ToDoList> toDoLists)
+        public ObservableCollection<ToDoList> ToDoLists { get; private set; }
+        public MainWindow(IEnumerable<ToDoList> toDoLists)
         {
             InitializeComponent();
-            ToDoLists = toDoLists;
+            ToDoLists=new ObservableCollection<ToDoList>(toDoLists);
 
-            Lists.ItemsSource = ToDoLists;
+            ListSelectionSection.Resources.Add("ToDoLists",ToDoLists);
+
+            Lists.ItemsSource = (ObservableCollection<ToDoList>)ListSelectionSection.Resources["ToDoLists"];
 
         }
 
@@ -39,6 +42,7 @@ namespace MyToDoList
             binding.Source = td;
             binding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
             Tasks.ItemsSource = td.Tasks;
+            CurrentListLabel.Content = td.Name;
         }
 
         private void AddListButton_Click(object sender, RoutedEventArgs e)
@@ -71,7 +75,6 @@ namespace MyToDoList
             if (!string.IsNullOrEmpty(tb.Text))
             {
                 ToDoLists.Add(new ToDoList() { Name = tb.Text });
-                Lists.Items.Refresh();
             }
                 ListsStackPanel.Children.Remove(tb);
         }

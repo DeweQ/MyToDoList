@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MyToDoList"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MyToDoLists" Height="450" Width="800">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" MaxWidth="250"/>
@@ -28,7 +28,7 @@
         <GridSplitter Grid.Column="1" ShowsPreview="False" Width="3"
                       HorizontalAlignment="Center" VerticalAlignment="Stretch"/>
         <DockPanel LastChildFill="True" Grid.Column="2">
-            <Label Background="LightGray" DockPanel.Dock="Top" Height="26"></Label>
+            <Label x:Name="CurrentListLabel" Background="LightGray" DockPanel.Dock="Top" >|</Label>
             <Button x:Name="AddTaskButton" Background="LightGreen" DockPanel.Dock="Bottom" Content="Add new Task" />
             <ListView x:Name="Tasks">
                 <ListView.ItemTemplate>
