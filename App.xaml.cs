@@ -22,7 +22,7 @@ namespace MyToDoList
         static void Main()
         {
             App app = new App();
-            MainWindow window = new MainWindow(InitializeList());
+            MainWindow window = new MainWindow(new ApplicationViewModel(InitializeList()));
             app.Run(window);
         }
 

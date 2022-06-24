@@ -12,14 +12,14 @@
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <DockPanel x:Name="ListSelectionSection" Grid.Column="0" LastChildFill="True">
+        <DockPanel  x:Name="ListSelectionSection" Grid.Column="0" LastChildFill="True">
             <Label Background="LightGray" DockPanel.Dock="Top">My lists</Label>
-            <Button x:Name="AddListButton" Background="LightGreen" DockPanel.Dock="Bottom" Content="Add new List" Click="AddListButton_Click" />
+            <Button x:Name="AddListButton" Background="LightGreen" DockPanel.Dock="Bottom" Content="Add new List"/>
             <StackPanel x:Name="ListsStackPanel">
-                <ListView x:Name="Lists" SelectionChanged="Lists_SelectionChanged">
+                <ListView ItemsSource="{Binding ToDoLists}" x:Name="Lists" SelectedItem="{Binding SelectedItem}">
                     <ListView.ItemTemplate>
                         <DataTemplate >
-                            <Label Content="{Binding Name}"  Background="AliceBlue" HorizontalAlignment="Stretch"></Label>
+                            <Label Content="{Binding Path=Name}"  Background="AliceBlue" HorizontalAlignment="Stretch"></Label>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
@@ -27,10 +27,10 @@
         </DockPanel>
         <GridSplitter Grid.Column="1" ShowsPreview="False" Width="3"
                       HorizontalAlignment="Center" VerticalAlignment="Stretch"/>
-        <DockPanel x:Name="CurrentListTaskPanel" LastChildFill="True" Grid.Column="2">
-            <Label x:Name="CurrentListLabel" Background="LightGray" DockPanel.Dock="Top" >|</Label>
+        <DockPanel DataContext="{Binding SelectedItem}" x:Name="CurrentListTaskPanel" LastChildFill="True" Grid.Column="2">
+            <Label Content="{Binding Name}" x:Name="CurrentListLabel" Background="LightGray" DockPanel.Dock="Top" ></Label>
             <Button x:Name="AddTaskButton" Background="LightGreen" DockPanel.Dock="Bottom" Content="Add new Task" />
-            <ListView x:Name="Tasks">
+            <ListView x:Name="Tasks" ItemsSource="{Binding Path=Items}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <CheckBox Height="20"  Content="{Binding Text}" IsChecked="{Binding IsCompleted}"></CheckBox>
