@@ -22,7 +22,8 @@ namespace MyToDoList
         static void Main()
         {
             App app = new App();
-            MainWindow window = new MainWindow(new ApplicationViewModel(InitializeList()));
+            var ViewModel = new ApplicationViewModel(InitializeList());
+            MainWindow window = new MainWindow(ViewModel);
             app.Run(window);
         }
 
@@ -32,33 +33,29 @@ namespace MyToDoList
             {
                 new ToDoList()
                 {
-                    Name = "List one",
+                    Name = "Application Level",
                     Items = new List<ToDoListItem>()
                     {
-                        new ToDoListItem(){Text="task 1"},
-                        new ToDoListItem(){Text="task 2"},
-                        new ToDoListItem(){Text="task 3"},
-                        new ToDoListItem(){Text="task 4"},
+                        new ToDoListItem(){Text="ViewModel Implementation",IsCompleted=true},
+                        new ToDoListItem(){Text="Serialization"},
                     }
                 },new ToDoList()
                 {
-                    Name = "List two",
+                    Name = "Model Level",
                     Items = new List<ToDoListItem>()
                     {
-                        new ToDoListItem(){Text="task 5"},
-                        new ToDoListItem(){Text="task 6"},
-                        new ToDoListItem(){Text="task 7"},
-                        new ToDoListItem(){Text="task 8"},
+                        new ToDoListItem(){Text="Basic model",IsCompleted=true},
+                        new ToDoListItem(){Text="Interface extraction"},
+                        new ToDoListItem(){Text="Better ViewModel interaction"},
                     }
                 },new ToDoList()
                 {
-                    Name = "List three",
+                    Name = "View Level",
                     Items = new List<ToDoListItem>()
                     {
-                        new ToDoListItem(){Text="task 9"},
-                        new ToDoListItem(){Text="task 10"},
-                        new ToDoListItem(){Text="task 11"},
-                        new ToDoListItem(){Text="task 12"},
+                        new ToDoListItem(){Text="Baic presentation of elements",IsCompleted=true},
+                        new ToDoListItem(){Text="Propper binding and commands"},
+                        new ToDoListItem(){Text="Better design and visualisation"},
                     }
                 }
             };

@@ -3,8 +3,15 @@ namespace MyToDoList;
 public class ToDoListItem : INotifyPropertyChanged
 {
     private bool isCompleted = false;
+    private string text = "";
 
-    public string Text { get; set; } = "";
+    public string Text { get => text;
+        set
+        {
+            text = value;
+            OnPropertyChanged("Text");
+        }
+    }
     public bool IsCompleted
     {
         get => isCompleted;
