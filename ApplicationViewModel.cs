@@ -14,6 +14,30 @@ public class ApplicationViewModel : INotifyPropertyChanged
             SelectedItem = ToDoLists[0];
     }
 
+    private RelayCommand addTaskCommand;
+    public RelayCommand AddTaskCommand
+    {
+        get
+        {
+            return addTaskCommand ??
+                (addTaskCommand = new RelayCommand(obj =>
+                {
+                    SelectedItem.Items.Add(new ToDoListItem());
+                }));
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
     public ToDoListItem SelectedListItem
     { 
         get => selectedListItem;
