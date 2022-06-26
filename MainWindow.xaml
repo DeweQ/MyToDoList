@@ -4,36 +4,141 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MyToDoList"
-        mc:Ignorable="d"
+        mc:Ignorable="d" FontSize="16" FontFamily="BankGothic Lt BT"
         Title="MyToDoLists" Height="450" Width="800">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" MaxWidth="250"/>
+            <ColumnDefinition Width="0.35*" MaxWidth="350"/>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <DockPanel  x:Name="ListSelectionSection" Grid.Column="0" LastChildFill="True">
-            <Label Background="LightGray" DockPanel.Dock="Top">My lists</Label>
-            <Button x:Name="AddListButton" Background="LightGreen" DockPanel.Dock="Bottom" Content="Add new List"/>
-            <StackPanel x:Name="ListsStackPanel">
-                <ListView ItemsSource="{Binding ToDoLists}" x:Name="Lists" SelectedItem="{Binding SelectedItem}">
-                    <ListView.ItemTemplate>
-                        <DataTemplate >
-                            <Label Content="{Binding Path=Name}"  Background="AliceBlue" HorizontalAlignment="Stretch"></Label>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-            </StackPanel>
-        </DockPanel>
-        <GridSplitter Grid.Column="1" ShowsPreview="False" Width="3"
-                      HorizontalAlignment="Center" VerticalAlignment="Stretch"/>
-        <DockPanel DataContext="{Binding SelectedItem}" x:Name="CurrentListTaskPanel" LastChildFill="True" Grid.Column="2">
-            <Label Content="{Binding Name}" x:Name="CurrentListLabel" Background="LightGray" DockPanel.Dock="Top" ></Label>
-            <Button x:Name="AddTaskButton" Background="LightGreen" DockPanel.Dock="Bottom" Content="Add new Task" />
-            <ListView x:Name="Tasks" ItemsSource="{Binding Path=Items}">
+        <DockPanel  Grid.Column="0" 
+                    LastChildFill="True">
+            <Label Background="LightGray" 
+                   DockPanel.Dock="Top">My lists</Label>
+            <Button Background="LightGreen"
+                    DockPanel.Dock="Bottom"
+                    Content="Add new List"/>
+            <ListView ItemsSource="{Binding ToDoLists}" 
+                          SelectedItem="{Binding SelectedItem}" 
+                          HorizontalAlignment="Stretch">
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="HorizontalContentAlignment" 
+                                    Value="Stretch"/>
+                    </Style>
+                </ListView.ItemContainerStyle>
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <CheckBox Height="20"  Content="{Binding Text}" IsChecked="{Binding IsCompleted}"></CheckBox>
+                        <Border BorderBrush="DimGray" 
+                                    BorderThickness="1" 
+                                    CornerRadius="14" 
+                                    Background="LightGray">
+                            <Grid HorizontalAlignment="Stretch" >
+                                <TextBlock  Text="{Binding Path=Name}" 
+                                            Padding="20,5,0,5 " />
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </DockPanel>
+        <GridSplitter Grid.Column="1" 
+                      ShowsPreview="False" 
+                      Width="3"
+                      HorizontalAlignment="Center" 
+                      VerticalAlignment="Stretch"/>
+
+        <DockPanel DataContext="{Binding SelectedItem}" 
+                   LastChildFill="True" 
+                   Grid.Column="2">
+            <Label Content="{Binding Name}" 
+                   x:Name="CurrentListLabel" 
+                   Background="LightGray" 
+                   DockPanel.Dock="Top" />
+            <Button Background="LightGreen" 
+                    DockPanel.Dock="Bottom" 
+                    Content="Add new Task" />
+            <ListView ItemsSource="{Binding Path=Items}">
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    </Style>
+                </ListView.ItemContainerStyle>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.Resources>
+                                <Style TargetType="TextBox">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding ElementName=EditButton,Path=IsChecked}" Value="True">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Grid.Resources>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="20"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="20"/>
+                            </Grid.ColumnDefinitions>
+                            <CheckBox Grid.Column="1"
+                                    Height="20"
+                                    VerticalAlignment="Center"
+                                    IsChecked="{Binding IsCompleted}">
+                                <Grid HorizontalAlignment="Stretch">
+                                    <TextBlock VerticalAlignment="Center"
+                                               Grid.Column="2"
+                                               Text="{Binding Text}"/>
+                                    <TextBox VerticalAlignment="Center"
+                                             Text="{Binding Text,UpdateSourceTrigger=PropertyChanged}"
+                                             Grid.Column="2"/>
+                                </Grid>
+                            </CheckBox>
+                            <StackPanel Grid.Column="3" Orientation="Horizontal">
+                                <StackPanel.Resources>
+                                    <Style TargetType="Button">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding 
+                           RelativeSource={RelativeSource Mode=FindAncestor,
+                           AncestorType={x:Type ListViewItem}},Path=IsSelected}" 
+                            Value="True">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                    <Style TargetType="ToggleButton">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding 
+                           RelativeSource={RelativeSource Mode=FindAncestor,
+                           AncestorType={x:Type ListViewItem}},Path=IsSelected}" 
+                            Value="True">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </StackPanel.Resources>
+                                <ToggleButton Content="Edit"
+                                    x:Name="EditButton"
+                                    Foreground="YellowGreen"
+                                    Background="Transparent"
+                                    BorderBrush="Transparent"
+                                    VerticalAlignment="Center" 
+                                    VerticalContentAlignment="Center"/>
+                                <Button Content="X"
+                                    Foreground="DarkRed"
+                                    Background="Transparent"
+                                    BorderBrush="Transparent"
+                                    VerticalAlignment="Center" 
+                                    VerticalContentAlignment="Center"/>
+                            </StackPanel>
+                        </Grid>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
