@@ -3,6 +3,10 @@
 public class ToDoListViewModel : IToDoList, INotifyPropertyChanged
 {
     IToDoList List;
+    List<IToDoItem> IToDoList.Items { get => List.Items; set => List.Items = value; }
+
+    public event PropertyChangedEventHandler? PropertyChanged;
+
     public string Name
     {
         get => List.Name;
@@ -13,7 +17,6 @@ public class ToDoListViewModel : IToDoList, INotifyPropertyChanged
         }
     }
     public ObservableCollection<IToDoItem> Items { get; set; }
-    List<IToDoItem> IToDoList.Items { get => List.Items; set => List.Items = value; }
 
     public ToDoListViewModel(IToDoList list)
     {
@@ -21,15 +24,20 @@ public class ToDoListViewModel : IToDoList, INotifyPropertyChanged
         Items = new ObservableCollection<IToDoItem>(List.Items);
     }
 
-    public event PropertyChangedEventHandler? PropertyChanged;
     void OnPropertyChanged([CallerMemberName] string property="")
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
     }
 
-    public void AddItem(IToDoItem Task)
+    public void Add(IToDoItem Task)
     {
-        List.AddItem(Task);
+        List.Add(Task);
         Items.Add(Task);
+    }
+
+    public void Remove(IToDoItem selectedItem)
+    {
+        Items.Remove(selectedItem);
+        List.Remove(selectedItem);
     }
 }

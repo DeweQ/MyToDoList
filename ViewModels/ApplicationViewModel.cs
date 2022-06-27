@@ -5,6 +5,13 @@ public class ApplicationViewModel : INotifyPropertyChanged
 
     private IToDoList selectedList;
     private IToDoItem selectedItem;
+    private RelayCommand addItemCommand;
+    private RelayCommand removeItemCommand;
+    private RelayCommand addListCommand;
+    private RelayCommand removeListCommand;
+
+
+    public event PropertyChangedEventHandler? PropertyChanged;
 
     public ObservableCollection<IToDoList> ToDoLists { get; set; }
 
@@ -37,7 +44,6 @@ public class ApplicationViewModel : INotifyPropertyChanged
         }
     }
 
-    private RelayCommand addItemCommand;
     public RelayCommand AddItemCommand
     {
         get
@@ -46,70 +52,50 @@ public class ApplicationViewModel : INotifyPropertyChanged
                 (addItemCommand = new RelayCommand(obj =>
                 {
                     var task = new ToDoItem();
-                    SelectedList.AddItem(task);
+                    SelectedList.Add(task);
                 }));
         }
     }
 
-    public event PropertyChangedEventHandler? PropertyChanged;
+    public RelayCommand RemoveItemCommand 
+    {
+        get
+        {
+            return removeItemCommand ??
+                (removeItemCommand = new RelayCommand(obj =>
+                {
+                    SelectedList.Remove(SelectedItem);
+                }));
+        }
+    }
+
+    public RelayCommand AddListCommand 
+    {
+        get
+        {
+
+            return addListCommand ??
+                (addListCommand = new RelayCommand(obj =>
+                {
+                    ToDoLists.Add(new ToDoListViewModel(new ToDoList()));
+                }));
+        }
+    }
+    public RelayCommand RemoveListCommand
+    {
+        get
+        {
+            return removeListCommand ??
+                (removeListCommand = new RelayCommand(obj =>
+                {
+                    ToDoLists.Remove(SelectedList);
+                }));
+        }
+    }
+
     public void OnPropertyChanged([CallerMemberName] string prop = "")
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
     }
-    //private ToDoList selectedItem;
-    //private ToDoItem selectedListItem;
-
-    //public ObservableCollection<ToDoList> ToDoLists { get; set; }
-
-    //public ApplicationViewModel(IEnumerable<ToDoList> toDoLists)
-    //{
-    //    ToDoLists = new ObservableCollection<ToDoList>(toDoLists);
-    //    if (ToDoLists.Count > 0)
-    //        SelectedItem = ToDoLists[0];
-    //}
-
-    //private RelayCommand addTaskCommand;
-    //public RelayCommand AddTaskCommand
-    //{
-    //    get
-    //    {
-    //        return addTaskCommand ??
-    //            (addTaskCommand = new RelayCommand(obj =>
-    //            {
-    //                //SelectedItem.Items.Add(new ToDoItem());
-    //            }));
-    //    }
-    //}
-
-
-
-
-
-
-
-
-
-
-
-
-    //public ToDoItem SelectedListItem
-    //{
-    //    get => selectedListItem;
-    //    set
-    //    {
-    //        selectedListItem = value;
-    //        OnPropertyChanged("SelectedListItem");
-    //    }
-    //}
-    //public ToDoList SelectedItem
-    //{
-    //    get => selectedItem;
-    //    set
-    //    {
-    //        selectedItem = value;
-    //        if (value?.Items.Count > 0)
-    //            SelectedListItem = value.Items[0];
-    //        OnPropertyChanged("SelectedItem");
-    //    }
-    //}
+    
 }
