@@ -15,3 +15,6 @@ global using System.Windows.Shapes;
 global using System.Collections.ObjectModel;
 global using System.ComponentModel;
 global using System.Runtime.CompilerServices;
+global using MyToDoList.Models;
+global using MyToDoList.Models.Interfaces;
+global using MyToDoList.ViewModels;

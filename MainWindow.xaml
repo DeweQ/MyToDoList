@@ -20,7 +20,7 @@
                     DockPanel.Dock="Bottom"
                     Content="Add new List"/>
             <ListView ItemsSource="{Binding ToDoLists}" 
-                          SelectedItem="{Binding SelectedItem}" 
+                          SelectedItem="{Binding SelectedList}" 
                           HorizontalAlignment="Stretch">
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
@@ -52,7 +52,7 @@
         
         
                 <!--Task Box-->
-        <DockPanel DataContext="{Binding SelectedItem}" 
+        <DockPanel DataContext="{Binding SelectedList}" 
                    LastChildFill="True" 
                    Grid.Column="2">
             <Label Content="{Binding Name}" 
@@ -62,10 +62,10 @@
             <Button Background="LightGreen" 
                     DockPanel.Dock="Bottom" 
                     Content="Add new Task"
-                    Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=DataContext.AddTaskCommand}"/>
+                    Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=DataContext.AddItemCommand}"/>
             
             <ListView ItemsSource="{Binding Path=Items}"
-                        SelectedItem="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=DataContext.SelectedListItem}">
+                        SelectedItem="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=DataContext.SelectedItem}">
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
                         <Setter Property="HorizontalContentAlignment" 

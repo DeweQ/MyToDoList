@@ -1,4 +1,6 @@
-﻿namespace MyToDoList;
+﻿using MyToDoList.ViewModels;
+
+namespace MyToDoList;
 
 /// <summary>
 /// Interaction logic for MainWindow.xaml
