@@ -19,3 +19,5 @@ global using MyToDoList.Models;
 global using MyToDoList.Models.Interfaces;
 global using MyToDoList.ViewModels;
 global using MyToDoList.Infrastructure;
+global using System.Text.Json;
+global using System.Text.Json.Serialization;

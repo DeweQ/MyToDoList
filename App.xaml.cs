@@ -1,11 +1,4 @@
-﻿using MyToDoList.Models;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
+﻿
 
 namespace MyToDoList
 {
@@ -23,15 +16,19 @@ namespace MyToDoList
         static void Main()
         {
             App app = new App();
-
+            var list = InitializeList();
             var ViewModel = new ApplicationViewModel(InitializeList(), new Generator());
+            var js = JsonSerializer.Serialize<List<ToDoList>>(list);
+            var vm = JsonSerializer.Deserialize<List<ToDoList>>(js);
+            if (list.Equals(vm))
+                MessageBox.Show("Success");
             MainWindow window = new MainWindow(ViewModel);
             app.Run(window);
         }
 
-        static List<IToDoList> InitializeList()
+        static List<ToDoList> InitializeList()
         {
-            return new List<IToDoList>()
+            return new List<ToDoList>()
             {
                 new ToDoList()
                 {
