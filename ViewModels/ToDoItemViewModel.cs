@@ -15,7 +15,7 @@ public class ToDoItemViewModel : INotifyPropertyChanged
         }
     }
 
-    public IToDoItem Item { get => Item; }
+    public IToDoItem Item { get => item; }
 
     public string Text
     {
