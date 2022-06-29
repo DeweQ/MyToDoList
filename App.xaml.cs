@@ -58,7 +58,7 @@ namespace MyToDoList
                     Items = new List<IToDoItem>()
                     {
                         new ToDoItemViewModel(new ToDoItem(){Text="Baic presentation of elements",IsCompleted=true}),
-                        new ToDoItemViewModel(new ToDoItem(){Text="Propper binding and commands"}),
+                        new ToDoItemViewModel(new ToDoItem(){Text="Propper binding and commands",IsCompleted=true}),
                         new ToDoItemViewModel(new ToDoItem(){Text="Better design and visualisation"}),
                     }
                 })

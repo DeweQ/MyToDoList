@@ -10,8 +10,8 @@ public class ApplicationViewModel : INotifyPropertyChanged
     private RelayCommand addListCommand;
     private RelayCommand removeListCommand;
 
-
     public event PropertyChangedEventHandler? PropertyChanged;
+
 
     public ObservableCollection<IToDoList> ToDoLists { get; set; }
 
