@@ -29,7 +29,7 @@ public class ApplicationViewModel : INotifyPropertyChanged
         {
             selectedList = value;
             OnPropertyChanged("SelectedList");
-            if (SelectedList.Items.Count > 0)
+            if (SelectedList?.Items.Count > 0)
                 SelectedItem = SelectedList.Items[0];
         }
     }

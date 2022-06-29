@@ -7,18 +7,89 @@
         mc:Ignorable="d" FontSize="16" FontFamily="BankGothic Lt BT"
         Title="MyToDoLists" Height="450" Width="800">
     <Grid>
+        <Grid.Resources>
+            <!--Style for listview grid-->
+            <Style x:Key="ListViewGrid"
+                   TargetType="ItemsControl">
+                <Setter Property="ItemsPanel">
+                    <Setter.Value>
+                        <ItemsPanelTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="20"/>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="20"/>
+                                </Grid.ColumnDefinitions>
+                            </Grid>
+                        </ItemsPanelTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <!--Style for hidden buttons-->
+            <Style x:Key="HiddenButtons" 
+                   TargetType="Control">
+                <Setter Property="Visibility" Value="Collapsed"/>
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="BorderBrush" Value="Transparent"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding 
+                                 RelativeSource={RelativeSource Mode=FindAncestor,
+                                 AncestorType={x:Type ListViewItem}},Path=IsSelected}" 
+                                 Value="True">
+                        <Setter Property="Visibility" Value="Visible"/>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+
+            <Style x:Key="RemoveButton"
+                   BasedOn="{StaticResource HiddenButtons}" 
+                   TargetType="Button">
+                <Setter Property="Foreground" Value="DarkRed"/>
+            </Style>
+
+            <Style x:Key="EditToggleButton"
+                   BasedOn="{StaticResource HiddenButtons}" 
+                   TargetType="ToggleButton">
+                <Setter Property="Foreground" Value="YellowGreen"/>
+            </Style>
+
+            <Style x:Key="EditTextBox" 
+                                       TargetType="TextBox">
+                <Setter Property="Visibility" 
+                                            Value="Collapsed"/>
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding ElementName=EditButton,
+                                                               Path=IsChecked}" 
+                                                     Value="True">
+                        <Setter Property="Visibility" 
+                                                    Value="Visible"/>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+
+        </Grid.Resources>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.35*" MaxWidth="350"/>
+            <ColumnDefinition Width="auto" MaxWidth="350"/>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
+
+        <!-- Lists here-->
+
         <DockPanel  Grid.Column="0" 
                     LastChildFill="True">
             <Label Background="LightGray" 
                    DockPanel.Dock="Top">My lists</Label>
             <Button Background="LightGreen"
                     DockPanel.Dock="Bottom"
-                    Content="Add new List"/>
+                    Content="Add new List"
+                    Command="{Binding AddListCommand}"/>
             <ListView ItemsSource="{Binding ToDoLists}" 
                           SelectedItem="{Binding SelectedList}" 
                           HorizontalAlignment="Stretch">
@@ -30,28 +101,51 @@
                 </ListView.ItemContainerStyle>
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <Border BorderBrush="DimGray" 
+                        <ItemsControl Style="{StaticResource ListViewGrid}">
+                            <Border BorderBrush="DimGray" 
                                     BorderThickness="1" 
                                     CornerRadius="14" 
-                                    Background="LightGray">
-                            <Grid HorizontalAlignment="Stretch" >
-                                <TextBlock  Text="{Binding Path=Name}" 
-                                            Padding="20,5,0,5 " />
-                            </Grid>
-                        </Border>
+                                    Background="LightGray"
+                                    Grid.Column="1">
+                                <Grid HorizontalAlignment="Stretch">
+                                    <TextBlock  Text="{Binding Path=Name}" 
+                                                Padding="5,5,0,5 "
+                                                Margin="5,0,5,0"/>
+                                    <TextBox Style="{StaticResource EditTextBox}"
+                                             x:Name="EditListTextBox"
+                                             Text="{Binding Path=Name,UpdateSourceTrigger=PropertyChanged}"
+                                             Margin="4,4,4,4"/>
+                                </Grid>
+                            </Border>
+
+                            <StackPanel Grid.Column="3" 
+                                        Orientation="Horizontal">
+                                <ToggleButton Content="Edit" 
+                                              Style="{StaticResource EditToggleButton}"
+                                              x:Name="EditButton"/>
+                                <Button Content="X"
+                                        Style="{StaticResource RemoveButton}"
+                                        Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}},Path=DataContext.RemoveListCommand}"/>
+                                <!--Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}},Path=DataContext.RemoveItemCommand}"-->
+                            </StackPanel>
+
+                        </ItemsControl>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
         </DockPanel>
+        
+        
+        
         <GridSplitter Grid.Column="1" 
                       ShowsPreview="False" 
                       Width="3"
                       HorizontalAlignment="Center" 
                       VerticalAlignment="Stretch"/>
-        
-        
-        
-                <!--Task Box-->
+
+
+
+        <!--Task Here-->
         <DockPanel DataContext="{Binding SelectedList}" 
                    LastChildFill="True" 
                    Grid.Column="2">
@@ -63,7 +157,7 @@
                     DockPanel.Dock="Bottom" 
                     Content="Add new Task"
                     Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=DataContext.AddItemCommand}"/>
-            
+
             <ListView ItemsSource="{Binding Path=Items}"
                         SelectedItem="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=DataContext.SelectedItem}">
                 <ListView.ItemContainerStyle>
@@ -74,82 +168,32 @@
                 </ListView.ItemContainerStyle>
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <Grid>
-                            <Grid.Resources>
-                                <Style x:Key="EditTextBox" 
-                                       TargetType="TextBox">
-                                    <Setter Property="Visibility" 
-                                            Value="Collapsed"/>
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding ElementName=EditButton,
-                                                               Path=IsChecked}" 
-                                                     Value="True">
-                                            <Setter Property="Visibility" 
-                                                    Value="Visible"/>
-                                        </DataTrigger>
-                                        <EventTrigger RoutedEvent="LostKeyboardFocus">
-                                            
-                                        </EventTrigger>
-                                    </Style.Triggers>
-                                </Style>
 
-                                <Style x:Key="HiddenButtons" 
-                                       TargetType="Control">
-                                    <Setter Property="Visibility" 
-                                            Value="Collapsed"/>
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding 
-                                                               RelativeSource={RelativeSource Mode=FindAncestor,
-                                                               AncestorType={x:Type ListViewItem}},Path=IsSelected}" 
-                                                        Value="True">
-                                            <Setter Property="Visibility" 
-                                                    Value="Visible"/>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </Grid.Resources>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="20"/>
-                                <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition Width="20"/>
-                            </Grid.ColumnDefinitions>
+                        <ItemsControl Style="{StaticResource ListViewGrid}">
                             <CheckBox Grid.Column="1"
                                       Height="20"
                                       VerticalAlignment="Center"
                                       IsChecked="{Binding IsCompleted}">
                                 <Grid HorizontalAlignment="Stretch">
                                     <TextBlock VerticalAlignment="Center"
-                                               Grid.Column="2"
                                                Text="{Binding Text}"/>
                                     <TextBox Style ="{StaticResource EditTextBox}" 
                                              VerticalAlignment="Center"
                                              x:Name="EditTask"
-                                             Text="{Binding Text,UpdateSourceTrigger=PropertyChanged}"
-                                             Grid.Column="2"/>
+                                             Text="{Binding Text,UpdateSourceTrigger=PropertyChanged}"/>
                                 </Grid>
                             </CheckBox>
                             <StackPanel Grid.Column="3" 
                                         Orientation="Horizontal">
                                 <ToggleButton Content="Edit" 
-                                              Style="{StaticResource HiddenButtons}"
-                                              x:Name="EditButton"
-                                              Foreground="YellowGreen"
-                                              Background="Transparent"
-                                              BorderBrush="Transparent"
-                                              VerticalAlignment="Center" 
-                                    VerticalContentAlignment="Center"/>
+                                              Style="{StaticResource EditToggleButton}"
+                                              x:Name="EditButton"/>
                                 <Button Content="X"
-                                        Style="{StaticResource HiddenButtons}"
-                                        Foreground="DarkRed"
-                                        Background="Transparent"
-                                        BorderBrush="Transparent"
-                                        VerticalAlignment="Center" 
-                                        VerticalContentAlignment="Center"/>
+                                        Style="{StaticResource RemoveButton}"
+                                        Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}},Path=DataContext.RemoveItemCommand}"/>
                             </StackPanel>
-                        </Grid>
+                        </ItemsControl>
+
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
