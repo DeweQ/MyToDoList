@@ -3,8 +3,9 @@
 public class ApplicationViewModel : INotifyPropertyChanged
 {
 
-    private IToDoList selectedList;
-    private IToDoItem selectedItem;
+    private readonly Generator Generator;
+    private ToDoListViewModel selectedList;
+    private ToDoItemViewModel selectedItem;
     private RelayCommand addItemCommand;
     private RelayCommand removeItemCommand;
     private RelayCommand addListCommand;
@@ -13,16 +14,19 @@ public class ApplicationViewModel : INotifyPropertyChanged
     public event PropertyChangedEventHandler? PropertyChanged;
 
 
-    public ObservableCollection<IToDoList> ToDoLists { get; set; }
+    public ObservableCollection<ToDoListViewModel> ToDoLists { get; set; }
 
-    public ApplicationViewModel(IEnumerable<IToDoList> todoLists)
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+    public ApplicationViewModel(IEnumerable<IToDoList> todoLists, Generator generator)
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
     {
-        ToDoLists = new ObservableCollection<IToDoList>(todoLists);
+        Generator = generator; 
+        ToDoLists = new ObservableCollection<ToDoListViewModel>(todoLists.Select(l => new ToDoListViewModel(l)));
         if (ToDoLists.Count > 0)
             SelectedList = ToDoLists[0];
     }
 
-    public IToDoList SelectedList
+    public ToDoListViewModel SelectedList
     {
         get => selectedList;
         set
@@ -34,7 +38,7 @@ public class ApplicationViewModel : INotifyPropertyChanged
         }
     }
 
-    public IToDoItem SelectedItem
+    public ToDoItemViewModel SelectedItem
     {
         get => selectedItem;
         set
@@ -51,7 +55,7 @@ public class ApplicationViewModel : INotifyPropertyChanged
             return addItemCommand ??
                 (addItemCommand = new RelayCommand(obj =>
                 {
-                    var task = new ToDoItem();
+                    var task = Generator.CreateItem();
                     SelectedList.Add(task);
                 }));
         }

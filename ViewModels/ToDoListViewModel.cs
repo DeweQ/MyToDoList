@@ -1,11 +1,26 @@
 ﻿namespace MyToDoList.ViewModels;
 
-public class ToDoListViewModel : IToDoList, INotifyPropertyChanged
+public class ToDoListViewModel : INotifyPropertyChanged
 {
     IToDoList List;
-    List<IToDoItem> IToDoList.Items { get => List.Items; set => List.Items = value; }
 
     public event PropertyChangedEventHandler? PropertyChanged;
+    //public event NotifyCollectionChangedEventHandler? CollectionChanged;
+
+    public ObservableCollection<ToDoItemViewModel> Items { get;private set; }
+
+
+    //public IReadOnlyList<ToDoItemViewModel> Items 
+    //{ get =>List.Items.Select(l => new ToDoItemViewModel(l)).ToList(); }
+
+
+
+    public ToDoListViewModel(IToDoList list)
+    {
+        List = list;
+        Items = new ObservableCollection<ToDoItemViewModel>(list.Items.Select(i => new ToDoItemViewModel(i)));
+    }
+
 
     public string Name
     {
@@ -16,28 +31,22 @@ public class ToDoListViewModel : IToDoList, INotifyPropertyChanged
             OnPropertyChanged("Name");
         }
     }
-    public ObservableCollection<IToDoItem> Items { get; set; }
 
-    public ToDoListViewModel(IToDoList list)
-    {
-        List = list;
-        Items = new ObservableCollection<IToDoItem>(List.Items);
-    }
-
-    void OnPropertyChanged([CallerMemberName] string property="")
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
-    }
 
     public void Add(IToDoItem Task)
     {
         List.Add(Task);
-        Items.Add(Task);
+        Items.Add(new ToDoItemViewModel(Task));
     }
 
-    public void Remove(IToDoItem selectedItem)
+    public void Remove(ToDoItemViewModel selectedItem)
     {
+        List.Remove(selectedItem.Item);
         Items.Remove(selectedItem);
-        List.Remove(selectedItem);
+    }
+
+    void OnPropertyChanged([CallerMemberName] string property = "")
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
     }
 }

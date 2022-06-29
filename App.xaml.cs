@@ -23,7 +23,8 @@ namespace MyToDoList
         static void Main()
         {
             App app = new App();
-            var ViewModel = new ApplicationViewModel(InitializeList());
+
+            var ViewModel = new ApplicationViewModel(InitializeList(), new Generator());
             MainWindow window = new MainWindow(ViewModel);
             app.Run(window);
         }
@@ -32,36 +33,35 @@ namespace MyToDoList
         {
             return new List<IToDoList>()
             {
-                new ToDoListViewModel(new ToDoList()
+                new ToDoList()
                 {
                     Name = "Application Level",
                     Items = new List<IToDoItem>()
                     {
-                        new ToDoItemViewModel(
-                            new ToDoItem(){Text="ViewModel Implementation",IsCompleted=true}),
-                        new ToDoItemViewModel(new ToDoItem(){Text="Serialization"}),
+                        new ToDoItem(){Text="ViewModel Implementation",IsCompleted=true},
+                        new ToDoItem(){Text="Serialization"},
                     }
-                }),
-                new ToDoListViewModel(new ToDoList()
+                },
+                new ToDoList()
                 {
                     Name = "Model Level",
                     Items = new List<IToDoItem>()
                     {
-                        new ToDoItemViewModel(new ToDoItem(){Text="Basic model",IsCompleted=true}),
-                        new ToDoItemViewModel(new ToDoItem(){Text="Interface extraction",IsCompleted=true}),
-                        new ToDoItemViewModel(new ToDoItem(){Text="Better ViewModel interaction"}),
+                        new ToDoItem(){Text="Basic model",IsCompleted=true},
+                        new ToDoItem(){Text="Interface extraction",IsCompleted=true},
+                        new ToDoItem(){Text="Better ViewModel interaction"},
                     }
-                }),
-                new ToDoListViewModel(new ToDoList()
+                },
+                new ToDoList()
                 {
                     Name = "View Level",
                     Items = new List<IToDoItem>()
                     {
-                        new ToDoItemViewModel(new ToDoItem(){Text="Baic presentation of elements",IsCompleted=true}),
-                        new ToDoItemViewModel(new ToDoItem(){Text="Propper binding and commands",IsCompleted=true}),
-                        new ToDoItemViewModel(new ToDoItem(){Text="Better design and visualisation"}),
+                        new ToDoItem(){Text="Baic presentation of elements",IsCompleted=true},
+                        new ToDoItem(){Text="Propper binding and commands",IsCompleted=true},
+                        new ToDoItem(){Text="Better design and visualisation"},
                     }
-                })
+                }
             };
         }
     }

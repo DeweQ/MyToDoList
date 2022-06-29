@@ -1,33 +1,35 @@
 ﻿namespace MyToDoList.ViewModels;
 
-public class ToDoItemViewModel : IToDoItem, INotifyPropertyChanged
+public class ToDoItemViewModel : INotifyPropertyChanged
 {
 
-    IToDoItem Item;
+    IToDoItem item;
 
     public bool IsCompleted
     {
-        get => Item.IsCompleted;
+        get => item.IsCompleted;
         set
         {
-            Item.IsCompleted = value;
+            item.IsCompleted = value;
             OnPropertyChanged("IsCompleted");
         }
     }
 
+    public IToDoItem Item { get => Item; }
+
     public string Text
     {
-        get => Item.Text;
+        get => item.Text;
         set
         {
-            Item.Text = value;
+            item.Text = value;
             OnPropertyChanged("Text");
         }
     }
 
     public ToDoItemViewModel(IToDoItem item)
     {
-        Item = item;
+        this.item = item;
     }
 
     public event PropertyChangedEventHandler? PropertyChanged;
