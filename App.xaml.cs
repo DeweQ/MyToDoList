@@ -24,7 +24,6 @@
 
         static ApplicationViewModel InitializeViewModel()
         {
-
             var ToDoLists = GetToDoLists();
             var viewModel = new ApplicationViewModel(ToDoLists, new Generator());
             return viewModel;
@@ -35,42 +34,20 @@
         {
             List<IToDoList> toDoLists = viewModel.ToDoLists.Select(x => x.List).ToList();
             var json = Infrastructure.JsonSerializer.Serialize(toDoLists);
-            WriteJsonToFile("ToDoLists.json", json);
+            Infrastructure.ResourceManager.WriteFile("ToDoLists", json);
         }
 
         static List<IToDoList> GetToDoLists()
         {
-            var json = ReadJsonFromFile("ToDoLists.json");
+            var json = Infrastructure.ResourceManager.ReadFile("ToDoLists");
             var ToDoLists = Infrastructure.JsonSerializer.DeserealizeToDoLists(json);
             if (ToDoLists == null)
-                ToDoLists = InitializeList();
+                ToDoLists = InitializeNewList();
             return ToDoLists;
-        }
-
-        private static string ReadJsonFromFile(string fileName)
-        {
-            var path = Directory.GetCurrentDirectory();
-            var fullFileName = $"{path}/Resources/{fileName}";
-            var output = "";
-            if (!File.Exists(fullFileName))
-                Directory.CreateDirectory("Resources");
-            using (var stream = new FileStream(fullFileName, FileMode.OpenOrCreate))
-            using (var sr = new StreamReader(stream))
-                output = sr.ReadToEnd();
-            return output;
-        }
-
-        private static void WriteJsonToFile(string fileName, string json)
-        {
-            var path = Directory.GetCurrentDirectory();
-            var fullFileName = $"{path}/Resources/{fileName}";
-            using (var stream = new FileStream(fullFileName, FileMode.OpenOrCreate))
-            using (var sw = new StreamWriter(stream))
-                sw.WriteLine(json);
         }
         #endregion
 
-        static List<IToDoList> InitializeList()
+        static List<IToDoList> InitializeNewList()
         {
             return new List<IToDoList>()
             {
