@@ -2,7 +2,7 @@
 
 public class ApplicationViewModel : INotifyPropertyChanged
 {
-
+    #region Fields
     private readonly Generator Generator;
     private ToDoListViewModel selectedList;
     private ToDoItemViewModel selectedItem;
@@ -10,14 +10,17 @@ public class ApplicationViewModel : INotifyPropertyChanged
     private RelayCommand removeItemCommand;
     private RelayCommand addListCommand;
     private RelayCommand removeListCommand;
+    #endregion
 
     public event PropertyChangedEventHandler? PropertyChanged;
 
-
     public ObservableCollection<ToDoListViewModel> ToDoLists { get; set; }
 
+
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-    public ApplicationViewModel(IEnumerable<IToDoList> todoLists, Generator generator)
+    public ApplicationViewModel(
+        IEnumerable<IToDoList> todoLists,
+        Generator generator)
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
     {
         Generator = generator; 
@@ -37,7 +40,6 @@ public class ApplicationViewModel : INotifyPropertyChanged
                 SelectedItem = SelectedList.Items[0];
         }
     }
-
     public ToDoItemViewModel SelectedItem
     {
         get => selectedItem;
@@ -48,6 +50,7 @@ public class ApplicationViewModel : INotifyPropertyChanged
         }
     }
 
+    #region //Commands
     public RelayCommand AddItemCommand
     {
         get
@@ -60,7 +63,6 @@ public class ApplicationViewModel : INotifyPropertyChanged
                 }));
         }
     }
-
     public RelayCommand RemoveItemCommand 
     {
         get
@@ -72,7 +74,6 @@ public class ApplicationViewModel : INotifyPropertyChanged
                 }));
         }
     }
-
     public RelayCommand AddListCommand 
     {
         get
@@ -96,6 +97,7 @@ public class ApplicationViewModel : INotifyPropertyChanged
                 }));
         }
     }
+    #endregion
 
     public void OnPropertyChanged([CallerMemberName] string prop = "")
     {

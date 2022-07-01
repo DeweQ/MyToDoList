@@ -2,46 +2,38 @@
 
 public class ToDoListViewModel : INotifyPropertyChanged
 {
-    IToDoList List;
+    IToDoList _list;
 
     public event PropertyChangedEventHandler? PropertyChanged;
-    //public event NotifyCollectionChangedEventHandler? CollectionChanged;
 
     public ObservableCollection<ToDoItemViewModel> Items { get;private set; }
 
-
-    //public IReadOnlyList<ToDoItemViewModel> Items 
-    //{ get =>List.Items.Select(l => new ToDoItemViewModel(l)).ToList(); }
-
-
-
     public ToDoListViewModel(IToDoList list)
     {
-        List = list;
+        this._list = list;
         Items = new ObservableCollection<ToDoItemViewModel>(list.Items.Select(i => new ToDoItemViewModel(i)));
     }
 
-
     public string Name
     {
-        get => List.Name;
+        get => _list.Name;
         set
         {
-            List.Name = value;
+            _list.Name = value;
             OnPropertyChanged("Name");
         }
     }
-
+    public IToDoList List { get => _list; }
 
     public void Add(IToDoItem Task)
     {
-        List.Add(Task);
+        _list.Add(Task);
         Items.Add(new ToDoItemViewModel(Task));
     }
 
     public void Remove(ToDoItemViewModel selectedItem)
     {
-        List.Remove(selectedItem.Item);
+        _list.Remove(selectedItem.Item);
         Items.Remove(selectedItem);
     }
 

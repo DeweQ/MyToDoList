@@ -1,12 +1,11 @@
-﻿
-
-namespace MyToDoList
+﻿namespace MyToDoList
 {
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
     public partial class App : Application
     {
+        
         App()
         {
             InitializeComponent();
@@ -16,19 +15,58 @@ namespace MyToDoList
         static void Main()
         {
             App app = new App();
-            var list = InitializeList();
-            var ViewModel = new ApplicationViewModel(InitializeList(), new Generator());
-            var js = JsonSerializer.Serialize<List<ToDoList>>(list);
-            var vm = JsonSerializer.Deserialize<List<ToDoList>>(js);
-            if (list.Equals(vm))
-                MessageBox.Show("Success");
+            ApplicationViewModel? ViewModel = InitializeViewModel();
             MainWindow window = new MainWindow(ViewModel);
             app.Run(window);
+            SerializeViewModel(ViewModel);
         }
 
-        static List<ToDoList> InitializeList()
+
+        static ApplicationViewModel InitializeViewModel()
         {
-            return new List<ToDoList>()
+
+            var ToDoLists = GetToDoLists();
+            var viewModel = new ApplicationViewModel(ToDoLists, new Generator());
+            return viewModel;
+        }
+
+        #region Serialization
+        private static void SerializeViewModel(ApplicationViewModel viewModel)
+        {
+            List<IToDoList> toDoLists = viewModel.ToDoLists.Select(x => x.List).ToList();
+            var json = Infrastructure.JsonSerializer.Serialize(toDoLists);
+            WriteJsonToFile("ToDoLists.json", json);
+        }
+
+        static List<IToDoList> GetToDoLists()
+        {
+            var json = ReadJsonFromFile("ToDoLists.json");
+            var ToDoLists = Infrastructure.JsonSerializer.DeserealizeToDoLists(json);
+            if (ToDoLists == null)
+                ToDoLists = InitializeList();
+            return ToDoLists;
+        }
+
+        private static string ReadJsonFromFile(string fileName)
+        {
+            var path = $"Resources/{fileName}";
+            if (!File.Exists(path))
+                File.Create(path);
+            return File.ReadAllText(path);
+        }
+
+        private static void WriteJsonToFile(string fileName, string json)
+        {
+            var path = $"Resources/{fileName}";
+            if (!File.Exists(path))
+                File.Create(path);
+            File.WriteAllText(path, json);
+        }
+        #endregion
+
+        static List<IToDoList> InitializeList()
+        {
+            return new List<IToDoList>()
             {
                 new ToDoList()
                 {
