@@ -5,7 +5,7 @@
     /// </summary>
     public partial class App : Application
     {
-        
+
         App()
         {
             InitializeComponent();
@@ -49,18 +49,24 @@
 
         private static string ReadJsonFromFile(string fileName)
         {
-            var path = $"Resources/{fileName}";
-            if (!File.Exists(path))
-                File.Create(path);
-            return File.ReadAllText(path);
+            var path = Directory.GetCurrentDirectory();
+            var fullFileName = $"{path}/Resources/{fileName}";
+            var output = "";
+            if (!File.Exists(fullFileName))
+                Directory.CreateDirectory("Resources");
+            using (var stream = new FileStream(fullFileName, FileMode.OpenOrCreate))
+            using (var sr = new StreamReader(stream))
+                output = sr.ReadToEnd();
+            return output;
         }
 
         private static void WriteJsonToFile(string fileName, string json)
         {
-            var path = $"Resources/{fileName}";
-            if (!File.Exists(path))
-                File.Create(path);
-            File.WriteAllText(path, json);
+            var path = Directory.GetCurrentDirectory();
+            var fullFileName = $"{path}/Resources/{fileName}";
+            using (var stream = new FileStream(fullFileName, FileMode.OpenOrCreate))
+            using (var sw = new StreamWriter(stream))
+                sw.WriteLine(json);
         }
         #endregion
 
