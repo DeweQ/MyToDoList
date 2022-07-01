@@ -16,7 +16,7 @@
                         <ItemsPanelTemplate>
                             <Grid>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="20"/>
+                                    <ColumnDefinition Width="10"/>
                                     <ColumnDefinition Width="auto"/>
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="auto"/>
@@ -59,16 +59,23 @@
                 <Setter Property="Foreground" Value="YellowGreen"/>
             </Style>
 
+            <!--Style for EditTextBox-->
             <Style x:Key="EditTextBox" 
-                                       TargetType="TextBox">
-                <Setter Property="Visibility" 
-                                            Value="Collapsed"/>
+                   TargetType="TextBox">
+                <Setter Property="Visibility"
+                        Value="Collapsed"/>
+                <EventSetter Event="GotKeyboardFocus" Handler="SelectAllText"/>
+                <EventSetter Event="LostKeyboardFocus" Handler="EditTextBoxLostFocus"/>
+                <EventSetter Event="KeyUp" Handler="LoseFocusOnEnterKeyUp"/>
                 <Style.Triggers>
+                    <Trigger Property="Visibility" Value="Visible">
+                        <Setter Property="FocusManager.FocusedElement" Value="{Binding RelativeSource={RelativeSource Mode=Self}}"/>
+                    </Trigger>
                     <DataTrigger Binding="{Binding ElementName=EditButton,
-                                                               Path=IsChecked}" 
-                                                     Value="True">
+                        Path=IsChecked}" 
+                                 Value="True">
                         <Setter Property="Visibility" 
-                                                    Value="Visible"/>
+                                Value="Visible"/>
                     </DataTrigger>
                 </Style.Triggers>
             </Style>
@@ -112,7 +119,7 @@
                                                 Padding="5,5,0,5 "
                                                 Margin="5,0,5,0"/>
                                     <TextBox Style="{StaticResource EditTextBox}"
-                                             x:Name="EditListTextBox"
+                                             x:Name="EditTextBox"
                                              Text="{Binding Path=Name,UpdateSourceTrigger=PropertyChanged}"
                                              Margin="4,4,4,4"/>
                                 </Grid>
@@ -126,7 +133,6 @@
                                 <Button Content="X"
                                         Style="{StaticResource RemoveButton}"
                                         Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}},Path=DataContext.RemoveListCommand}"/>
-                                <!--Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}},Path=DataContext.RemoveItemCommand}"-->
                             </StackPanel>
 
                         </ItemsControl>
@@ -134,9 +140,9 @@
                 </ListView.ItemTemplate>
             </ListView>
         </DockPanel>
-        
-        
-        
+
+
+
         <GridSplitter Grid.Column="1" 
                       ShowsPreview="False" 
                       Width="3"
@@ -170,19 +176,28 @@
                     <DataTemplate>
 
                         <ItemsControl Style="{StaticResource ListViewGrid}">
-                            <CheckBox Grid.Column="1"
-                                      Height="20"
-                                      VerticalAlignment="Center"
-                                      IsChecked="{Binding IsCompleted}">
+                            <Border Grid.Column="1">
                                 <Grid HorizontalAlignment="Stretch">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <CheckBox 
+                                        Grid.Column="0"
+                                      Height="20"
+                                      IsChecked="{Binding IsCompleted}"
+                                        Margin="0,5,5,0">
+                                    </CheckBox>
                                     <TextBlock VerticalAlignment="Center"
-                                               Text="{Binding Text}"/>
+                                               Text="{Binding Text}"
+                                               Grid.Column="1"/>
                                     <TextBox Style ="{StaticResource EditTextBox}" 
                                              VerticalAlignment="Center"
-                                             x:Name="EditTask"
-                                             Text="{Binding Text,UpdateSourceTrigger=PropertyChanged}"/>
+                                             x:Name="EditTextBox"
+                                             Text="{Binding Text,UpdateSourceTrigger=PropertyChanged}"
+                                             Grid.Column="1"/>
                                 </Grid>
-                            </CheckBox>
+                            </Border>
                             <StackPanel Grid.Column="3" 
                                         Orientation="Horizontal">
                                 <ToggleButton Content="Edit" 
