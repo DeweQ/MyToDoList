@@ -21,6 +21,7 @@
     <Content Include="Icon.ico" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="gong-wpf-dragdrop" Version="3.1.1" />
     <PackageReference Include="newtonsoft.json" Version="13.0.1" />
   </ItemGroup>
 </Project>
