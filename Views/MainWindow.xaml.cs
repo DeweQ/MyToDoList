@@ -21,6 +21,18 @@ public partial class MainWindow : Window
         button.IsChecked = false;
     }
 
+    private void SelectAllText(object sender, KeyboardFocusChangedEventArgs e)
+    {
+        TextBox tb = sender as TextBox;
+        tb.SelectAll();
+    }
+
+    private void LoseFocusOnEnterKeyUp(object sender, KeyEventArgs e)
+    {
+        if (e.Key == Key.Enter)
+            EditTextBoxLostFocus(sender, e); 
+    }
+
     private T FindParent<T>(DependencyObject child) where T : DependencyObject
     {
         var parent = VisualTreeHelper.GetParent(child);
@@ -44,17 +56,5 @@ public partial class MainWindow : Window
                 return child as T;
         }
         return null;
-    }
-
-    private void SelectAllText(object sender, KeyboardFocusChangedEventArgs e)
-    {
-        TextBox tb = sender as TextBox;
-        tb.SelectAll();
-    }
-
-    private void LoseFocusOnEnterKeyUp(object sender, KeyEventArgs e)
-    {
-        if (e.Key == Key.Enter)
-            EditTextBoxLostFocus(sender, e); 
     }
 }
