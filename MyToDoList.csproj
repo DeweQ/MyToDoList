@@ -7,6 +7,9 @@
     <UseWPF>true</UseWPF>
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
+  <ItemGroup>
+    <Resource Include="Fonts\bank gothic light bt.ttf" />
+  </ItemGroup>
 
   <ItemGroup>
     <Page Include="App.xaml"></Page>

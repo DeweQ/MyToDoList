@@ -3,6 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:MyToDoList">
     <Application.Resources>
-         
+        <FontFamily x:Key="BankGothic">pack://application:,,,/Fonts/#BankGothic Lt BT</FontFamily>
     </Application.Resources>
 </Application>
