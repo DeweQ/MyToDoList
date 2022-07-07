@@ -9,8 +9,21 @@
         FontFamily="{StaticResource BankGothic}"
         FontSize="16" 
         Title="MyToDoLists" Height="450" Width="800">
-    <Grid>
+    <Grid Background="#000000">
         <Grid.Resources>
+            
+            <!--Style for completed tasks-->
+            <Style x:Key="TaskNotification"
+                   TargetType="Border">
+                <Setter Property="Background" Value="White"/>
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding ElementName=IsCompletedCheckBox, Path=IsChecked}" Value="True">
+                        <Setter Property="Background" Value="WhiteSmoke"/>
+                    </DataTrigger>
+                </Style.Triggers>
+
+            </Style>
+            
             <!--Style for listview grid-->
             <Style x:Key="ListViewGrid"
                    TargetType="ItemsControl">
@@ -30,6 +43,12 @@
                         </ItemsPanelTemplate>
                     </Setter.Value>
                 </Setter>
+                <Setter Property="Background" Value="Transparent"/>
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding ElementName=IsCompletedCheckBox,Path=IsChecked}" Value="True">
+                        <Setter Property="Background" Value="#FF389D75"/>
+                    </DataTrigger>
+                </Style.Triggers>
             </Style>
 
             <!--Style for hidden buttons-->
@@ -59,7 +78,7 @@
             <Style x:Key="EditToggleButton"
                    BasedOn="{StaticResource HiddenButtons}" 
                    TargetType="ToggleButton">
-                <Setter Property="Foreground" Value="YellowGreen"/>
+                <Setter Property="Foreground" Value="#FF535C6D"/>
             </Style>
 
             <!--Style for EditTextBox-->
@@ -92,62 +111,64 @@
 
         <!-- Lists here-->
 
-        <DockPanel  Grid.Column="0" 
-                    LastChildFill="True">
-            <Label Background="LightGray" 
+                    <DockPanel  Grid.Column="0" 
+                    LastChildFill="True" >
+
+            <Label Background="#FF8B776E" 
                    DockPanel.Dock="Top">My lists</Label>
-            <Button Background="LightGreen"
+            <Button Background="#FF535C6D"
                     DockPanel.Dock="Bottom"
                     FontFamily="./resources/BankGothic Lt BT"
                     Content="Add new List"
                     Command="{Binding AddListCommand}"/>
-            <ListView ItemsSource="{Binding ToDoLists}" 
+                <ListView ItemsSource="{Binding ToDoLists}" 
                           SelectedItem="{Binding SelectedList}" 
                           HorizontalAlignment="Stretch"
                       dd:DragDrop.IsDragSource="True"
-                      dd:DragDrop.IsDropTarget="True">
-                <ListView.ItemContainerStyle>
-                    <Style TargetType="ListViewItem">
+                      dd:DragDrop.IsDropTarget="True"
+                          Background="#FFD6CDBC">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
                         <Setter Property="HorizontalContentAlignment" 
                                     Value="Stretch"/>
+                        <Setter Property="Background" Value="Transparent"/>
                     </Style>
-                </ListView.ItemContainerStyle>
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ItemsControl Style="{StaticResource ListViewGrid}">
-                            <Border BorderBrush="DimGray" 
-                                    BorderThickness="1" 
-                                    CornerRadius="14" 
-                                    Background="LightGray"
-                                    Grid.Column="1">
-                                <Grid HorizontalAlignment="Stretch">
-                                    <TextBlock  Text="{Binding Path=Name}" 
+                    </ListView.ItemContainerStyle>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ItemsControl Style="{StaticResource ListViewGrid}">
+                            <ItemsControl.Background>
+                                <SolidColorBrush Color="#FF8B776E"/>
+                            </ItemsControl.Background>
+                                <Border BorderBrush="DimGray" 
+                                    BorderThickness="0"
+                                    Grid.Column="1" Background="#FF8B776E">
+                                    <Grid HorizontalAlignment="Stretch">
+                                        <TextBlock  Text="{Binding Path=Name}" 
                                                 Padding="5,5,0,5 "
                                                 Margin="5,0,5,0"/>
-                                    <TextBox Style="{StaticResource EditTextBox}"
+                                        <TextBox Style="{StaticResource EditTextBox}"
                                              x:Name="EditTextBox"
                                              Text="{Binding Path=Name,UpdateSourceTrigger=PropertyChanged}"
                                              Margin="4,4,4,4"/>
-                                </Grid>
-                            </Border>
+                                    </Grid>
+                                </Border>
 
-                            <StackPanel Grid.Column="3" 
+                                <StackPanel Grid.Column="3" 
                                         Orientation="Horizontal">
-                                <ToggleButton Content="Edit" 
+                                    <ToggleButton Content="Edit" 
                                               Style="{StaticResource EditToggleButton}"
                                               x:Name="EditButton"/>
-                                <Button Content="X"
+                                    <Button Content="X"
                                         Style="{StaticResource RemoveButton}"
                                         Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}},Path=DataContext.RemoveListCommand}"/>
-                            </StackPanel>
+                                </StackPanel>
 
-                        </ItemsControl>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-        </DockPanel>
-
-
+                            </ItemsControl>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </DockPanel>
 
         <GridSplitter Grid.Column="1" 
                       ShowsPreview="False" 
@@ -163,9 +184,9 @@
                    Grid.Column="2">
             <Label Content="{Binding Name}" 
                    x:Name="CurrentListLabel" 
-                   Background="LightGray" 
+                   Background="#FF8B776E" 
                    DockPanel.Dock="Top" />
-            <Button Background="LightGreen" 
+            <Button Background="#FF535C6D" 
                     DockPanel.Dock="Bottom" 
                     Content="Add new Task"
                     Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=DataContext.AddItemCommand}"/>
@@ -173,7 +194,8 @@
             <ListView ItemsSource="{Binding Path=Items}"
                         SelectedItem="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=DataContext.SelectedItem}"
                       dd:DragDrop.IsDragSource="True"
-                      dd:DragDrop.IsDropTarget="True">
+                      dd:DragDrop.IsDropTarget="True"
+                      Background="#FFD6CDBC">
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
                         <Setter Property="HorizontalContentAlignment" 
@@ -190,7 +212,8 @@
                                         <ColumnDefinition Width="auto"/>
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
-                                    <CheckBox 
+                                    <CheckBox
+                                        x:Name="IsCompletedCheckBox"
                                         Grid.Column="0"
                                       Height="20"
                                       IsChecked="{Binding IsCompleted}"
