@@ -16,12 +16,11 @@ public class ApplicationViewModel : INotifyPropertyChanged
 
     public ObservableCollection<ToDoListViewModel> ToDoLists { get; set; }
 
-
     public ApplicationViewModel(
         IEnumerable<IToDoList> todoLists,
         Generator generator)
     {
-        Generator = generator; 
+        Generator = generator;
         ToDoLists = new ObservableCollection<ToDoListViewModel>(todoLists.Select(l => new ToDoListViewModel(l)));
         if (ToDoLists.Count > 0)
             SelectedList = ToDoLists[0];
@@ -38,6 +37,7 @@ public class ApplicationViewModel : INotifyPropertyChanged
                 SelectedItem = SelectedList.Items[0];
         }
     }
+
     public ToDoItemViewModel SelectedItem
     {
         get => selectedItem;
@@ -61,7 +61,8 @@ public class ApplicationViewModel : INotifyPropertyChanged
                 }));
         }
     }
-    public RelayCommand RemoveItemCommand 
+
+    public RelayCommand RemoveItemCommand
     {
         get
         {
@@ -72,7 +73,8 @@ public class ApplicationViewModel : INotifyPropertyChanged
                 }));
         }
     }
-    public RelayCommand AddListCommand 
+
+    public RelayCommand AddListCommand
     {
         get
         {
@@ -84,6 +86,7 @@ public class ApplicationViewModel : INotifyPropertyChanged
                 }));
         }
     }
+
     public RelayCommand RemoveListCommand
     {
         get
@@ -101,5 +104,5 @@ public class ApplicationViewModel : INotifyPropertyChanged
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
     }
-    
+
 }

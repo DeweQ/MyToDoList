@@ -3,13 +3,15 @@
 public static class JsonSerializer
 {
     private static ISerializationBinder _binder = new TypeNameSerializationBinder();
+
     public static void SetSerializationBinder(ISerializationBinder binder)
     {
         _binder = binder;
     }
-    public static string Serialize<T> (T obj) 
+
+    public static string Serialize<T>(T obj)
     {
-        return JsonConvert.SerializeObject (obj, Formatting.Indented,
+        return JsonConvert.SerializeObject(obj, Formatting.Indented,
             new JsonSerializerSettings()
             {
                 TypeNameHandling = TypeNameHandling.Auto,

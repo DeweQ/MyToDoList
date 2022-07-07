@@ -1,5 +1,4 @@
-﻿using MyToDoList.ViewModels;
-using System.Windows.Controls.Primitives;
+﻿using System.Windows.Controls.Primitives;
 
 namespace MyToDoList;
 
@@ -16,9 +15,9 @@ public partial class MainWindow : Window
 
     private void EditTextBoxLostFocus(object sender, RoutedEventArgs e)
     {
-        
+
         var parent = RelativeFinder.FindParent<ItemsControl>(sender as TextBox);
-        var button = RelativeFinder.FindChildByName<ToggleButton>(parent,"EditButton");
+        var button = RelativeFinder.FindChildByName<ToggleButton>(parent, "EditButton");
         button.IsChecked = false;
     }
 
@@ -33,6 +32,4 @@ public partial class MainWindow : Window
         if (e.Key == Key.Enter)
             EditTextBoxLostFocus(sender, e);
     }
-
-    
 }

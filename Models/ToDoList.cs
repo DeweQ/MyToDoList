@@ -1,6 +1,6 @@
 namespace MyToDoList.Models;
 
-public class ToDoList :IToDoList
+public class ToDoList : IToDoList
 {
     public List<IToDoItem> Items { get; set; } = new List<IToDoItem>();
     public string Name { get; set; } = "List";

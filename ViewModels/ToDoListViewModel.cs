@@ -6,7 +6,7 @@ public class ToDoListViewModel : INotifyPropertyChanged
 
     public event PropertyChangedEventHandler? PropertyChanged;
 
-    public ObservableCollection<ToDoItemViewModel> Items { get;private set; }
+    public ObservableCollection<ToDoItemViewModel> Items { get; private set; }
 
     public ToDoListViewModel(IToDoList list)
     {
@@ -23,6 +23,7 @@ public class ToDoListViewModel : INotifyPropertyChanged
             OnPropertyChanged("Name");
         }
     }
+
     public IToDoList List { get => _list; }
 
     public void Add(IToDoItem Task)

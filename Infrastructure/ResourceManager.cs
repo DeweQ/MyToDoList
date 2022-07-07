@@ -34,7 +34,7 @@ public static class ResourceManager
         using (var sw = new StreamWriter(stream))
             sw.WriteLine(content);
     }
-    
+
     private static string GetFullName(string fileName) =>
         $"{Directory.GetCurrentDirectory()}/{fileName}";
 
