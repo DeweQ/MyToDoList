@@ -19,6 +19,7 @@ global using MyToDoList.Models;
 global using MyToDoList.Models.Interfaces;
 global using MyToDoList.ViewModels;
 global using MyToDoList.Infrastructure;
+global using MyToDoList.Views;
 global using Newtonsoft.Json;
 global using Newtonsoft.Json.Serialization;
 global using System.Collections;
