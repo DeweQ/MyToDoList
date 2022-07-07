@@ -17,11 +17,9 @@ public class ApplicationViewModel : INotifyPropertyChanged
     public ObservableCollection<ToDoListViewModel> ToDoLists { get; set; }
 
 
-#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
     public ApplicationViewModel(
         IEnumerable<IToDoList> todoLists,
         Generator generator)
-#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
     {
         Generator = generator; 
         ToDoLists = new ObservableCollection<ToDoListViewModel>(todoLists.Select(l => new ToDoListViewModel(l)));
@@ -59,7 +57,7 @@ public class ApplicationViewModel : INotifyPropertyChanged
                 (addItemCommand = new RelayCommand(obj =>
                 {
                     var task = Generator.CreateItem();
-                    SelectedList.Add(task);
+                    SelectedList?.Add(task);
                 }));
         }
     }
